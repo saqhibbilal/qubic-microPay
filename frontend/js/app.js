@@ -27,11 +27,11 @@ async function createResource() {
   const price_qubic = parseInt(rPrice.value);
 
   if (!api_key || !name || !price_qubic) {
-    resourceOut.textContent = "❌ Missing fields";
+    resourceOut.textContent = "Missing fields";
     return;
   }
 
-  resourceOut.textContent = "⏳ Creating resource...";
+  resourceOut.textContent = "Creating resource...";
   setLoading(btn, true);
 
   try {
@@ -58,7 +58,7 @@ async function createResource() {
     loadResources();
 
   } catch (err) {
-    resourceOut.textContent = "❌ Network error while creating resource";
+    resourceOut.textContent = "Network error while creating resource";
     console.error(err);
   }
 
@@ -71,7 +71,7 @@ async function createResource() {
 async function loadResources() {
   const api_key = apiKey.value;
 
-  resourceList.textContent = "⏳ Loading resources...";
+  resourceList.textContent = "Loading resources...";
 
   const res = await fetch(BASE + "/api/resources?api_key=" + api_key);
   const text = await res.text();
@@ -93,11 +93,11 @@ async function createSession() {
   const user_wallet = userWallet.value;
 
   if (!api_key || !resource_id || !user_wallet) {
-    sessionOut.textContent = "❌ Missing fields";
+    sessionOut.textContent = "Missing fields";
     return;
   }
 
-  sessionOut.textContent = "⏳ Creating payment session...";
+  sessionOut.textContent = "Creating payment session...";
   setLoading(event.target, true);
 
   const res = await fetch(BASE + "/api/pay-per-use", {
@@ -123,7 +123,7 @@ async function createSession() {
       navigator.clipboard.writeText(newSessionId);
 
       // ✅ Visual feedback
-      paymentBadge.innerHTML = "📋 Session ID auto-filled & copied";
+      paymentBadge.innerHTML = "Session ID auto-filled and copied";
     }
 
   } catch (e) {
@@ -137,7 +137,7 @@ async function createSession() {
 
 async function markPaid() {
   const id = sessionId.value;
-  statusOut.textContent = "⏳ Marking paid...";
+  statusOut.textContent = "Marking paid...";
 
   setLoading(event.target, true);
 
@@ -148,7 +148,7 @@ async function markPaid() {
   try {
     const parsed = JSON.parse(text);
     if (parsed.success === true) {
-      paymentBadge.innerHTML = "<span class='status-badge status-paid'>✅ PAID</span>";
+      paymentBadge.innerHTML = "<span class='status-badge status-paid'>PAID</span>";
     }
   } catch {}
 
@@ -158,7 +158,7 @@ async function markPaid() {
 
 async function checkStatus() {
   const id = sessionId.value;
-  statusOut.textContent = "⏳ Checking status...";
+  statusOut.textContent = "Checking status...";
 
   const res = await fetch(BASE + "/api/sessions/" + id);
   const text = await res.text();
@@ -171,13 +171,13 @@ async function checkStatus() {
     const realStatus = parsed.data?.status;
 
     if (realStatus === "paid") {
-      paymentBadge.innerHTML = "<span class='status-badge status-paid'>✅ PAID</span>";
+      paymentBadge.innerHTML = "<span class='status-badge status-paid'>PAID</span>";
     } else {
-      paymentBadge.innerHTML = "<span class='status-badge status-pending'>⏳ PENDING</span>";
+      paymentBadge.innerHTML = "<span class='status-badge status-pending'>PENDING</span>";
     }
 
   } catch (e) {
-    paymentBadge.innerHTML = "<span class='status-badge status-pending'>⚠️ ERROR</span>";
+    paymentBadge.innerHTML = "<span class='status-badge status-pending'>ERROR</span>";
   }
 }
 
