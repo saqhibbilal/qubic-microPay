@@ -1,4 +1,5 @@
-const BASE = "https://sub-shi-qubipay-backend.hf.space";
+// Use http://localhost:5000 when running backend locally
+const BASE = "http://localhost:5000";
 
 
 function showTab(tab, el) {
